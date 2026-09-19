@@ -1,0 +1,8 @@
+{
+  "name": "CampusRide",
+  "description": "Smart Rides for Smart Students, now featuring a premium, secure Admin Dashboard for user approval, rider auditing, location tracking, and supporting real-time college notifications.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

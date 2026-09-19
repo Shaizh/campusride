@@ -1,0 +1,73 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Reusable global helper functions
+    function isSignedIn() {
+      return true;
+    }
+
+    function isOwner(userId) {
+      return true;
+    }
+
+    // Default catch-all
+    match /{document=**} {
+      allow read, write: if true;
+    }
+
+    // Users Collection
+    match /campusride_users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Rides Collection
+    match /campusride_rides/{rideId} {
+      allow read, write: if true;
+    }
+
+    // Bookings Collection
+    match /campusride_bookings/{bookingId} {
+      allow read, write: if true;
+    }
+
+    // Payments Collection
+    match /campusride_payments/{paymentId} {
+      allow read, write: if true;
+    }
+
+    // Reviews Collection
+    match /campusride_reviews/{reviewId} {
+      allow read, write: if true;
+    }
+
+    // Complaints Collection
+    match /campusride_complaints/{complaintId} {
+      allow read, write: if true;
+    }
+
+    // Notifications Collection
+    match /campusride_notifications/{notificationId} {
+      allow read, write: if true;
+    }
+
+    // Messages Collection
+    match /campusride_messages/{messageId} {
+      allow read, write: if true;
+    }
+
+    // Login Logs Collection
+    match /campusride_login_logs/{logId} {
+      allow read, write: if true;
+    }
+
+    // Activity Logs Collection
+    match /campusride_activity_logs/{logId} {
+      allow read, write: if true;
+    }
+
+    // Backups Collection
+    match /campusride_backups/{backupId} {
+      allow read, write: if true;
+    }
+  }
+}

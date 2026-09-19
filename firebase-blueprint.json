@@ -1,0 +1,271 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User profile containing roles, college, verification status, and admin rights.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["passenger", "rider"] },
+        "fullName": { "type": "string" },
+        "collegeName": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "isVerified": { "type": "boolean" },
+        "avatarUrl": { "type": "string" },
+        "password": { "type": "string" },
+        "isAdmin": { "type": "boolean" },
+        "balance": { "type": "number" },
+        "rating": { "type": "number" },
+        "totalRides": { "type": "number" },
+        "verificationStatus": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "rejectionReason": { "type": "string" },
+        "isSuspended": { "type": "boolean" },
+        "isBanned": { "type": "boolean" },
+        "vehicleName": { "type": "string" },
+        "vehiclePlate": { "type": "string" },
+        "vehiclePhoto": { "type": "string" },
+        "dateCreated": { "type": "string" },
+        "fcmToken": { "type": "string" },
+        "notificationEnabled": { "type": "boolean" },
+        "lastTokenUpdate": { "type": "string" },
+        "notificationPreferences": {
+          "type": "object",
+          "properties": {
+            "newRides": { "type": "boolean" },
+            "bookingUpdates": { "type": "boolean" },
+            "rideUpdates": { "type": "boolean" },
+            "promotions": { "type": "boolean" },
+            "paymentNotifications": { "type": "boolean" }
+          }
+        }
+      },
+      "required": ["id", "email", "role", "fullName", "collegeName", "phoneNumber", "isVerified", "avatarUrl", "balance", "rating", "totalRides"]
+    },
+    "ride": {
+      "title": "Ride",
+      "description": "Offered rides by riders containing pickup, destination, price, and seats.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "riderId": { "type": "string" },
+        "riderName": { "type": "string" },
+        "riderCollege": { "type": "string" },
+        "riderRating": { "type": "number" },
+        "riderAvatar": { "type": "string" },
+        "vehicleName": { "type": "string" },
+        "vehiclePlate": { "type": "string" },
+        "vehiclePhoto": { "type": "string" },
+        "seatsTotal": { "type": "number" },
+        "seatsAvailable": { "type": "number" },
+        "pricePerSeat": { "type": "number" },
+        "routeType": { "type": "string", "enum": ["home_to_college", "college_to_home", "round_trip"] },
+        "pickup": { "type": "string" },
+        "destination": { "type": "string" },
+        "date": { "type": "string" },
+        "departureTime": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "completed", "cancelled"] }
+      },
+      "required": ["id", "riderId", "riderName", "riderCollege", "riderRating", "seatsTotal", "seatsAvailable", "pricePerSeat", "routeType", "pickup", "destination", "date", "departureTime", "status"]
+    },
+    "booking": {
+      "title": "Booking",
+      "description": "Bookings created on active rides.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "rideId": { "type": "string" },
+        "passengerId": { "type": "string" },
+        "riderId": { "type": "string" },
+        "passengerName": { "type": "string" },
+        "passengerCollege": { "type": "string" },
+        "passengerPhone": { "type": "string" },
+        "seatsBooked": { "type": "number" },
+        "totalPrice": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected", "cancelled", "completed"] },
+        "paymentStatus": { "type": "string", "enum": ["pending", "paid"] },
+        "dateBooked": { "type": "string" }
+      },
+      "required": ["id", "rideId", "passengerId", "passengerName", "passengerCollege", "passengerPhone", "seatsBooked", "totalPrice", "status", "paymentStatus", "dateBooked"]
+    },
+    "payment": {
+      "title": "Payment",
+      "description": "Payments mapping to bookings.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "bookingId": { "type": "string" },
+        "amount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["UPI", "GPay", "PhonePe", "Paytm"] },
+        "status": { "type": "string", "enum": ["pending", "completed", "failed"] },
+        "transactionId": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["id", "bookingId", "amount", "paymentMethod", "status", "transactionId", "date"]
+    },
+    "review": {
+      "title": "Review",
+      "description": "Rider reviews written by passengers.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "rideId": { "type": "string" },
+        "riderId": { "type": "string" },
+        "passengerId": { "type": "string" },
+        "passengerName": { "type": "string" },
+        "rating": { "type": "number" },
+        "reviewText": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["id", "rideId", "riderId", "passengerId", "passengerName", "rating", "reviewText", "date"]
+    },
+    "complaint": {
+      "title": "Complaint",
+      "description": "Safety / service complaints.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "passengerId": { "type": "string" },
+        "rideId": { "type": "string" },
+        "category": { "type": "string", "enum": ["late_arrival", "unsafe_driving", "misbehavior", "wrong_route", "vehicle_issue", "other"] },
+        "explanation": { "type": "string" },
+        "evidenceUrl": { "type": "string" },
+        "date": { "type": "string" }
+      },
+      "required": ["id", "passengerId", "rideId", "category", "explanation", "date"]
+    },
+    "notification": {
+      "title": "Notification",
+      "description": "In-app notifications / broadcast updates.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "body": { "type": "string" },
+        "type": { "type": "string", "enum": ["ride_booked", "ride_cancelled", "message_received", "rider_arriving", "complaint_update", "system"] },
+        "read": { "type": "boolean" },
+        "date": { "type": "string" },
+        "rideId": { "type": "string" },
+        "bookingId": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "message", "type", "read", "date"]
+    },
+    "message": {
+      "title": "Message",
+      "description": "Real-time in-app messages between passengers and riders.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "rideId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "receiverId": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "locationShared": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" },
+            "isRider": { "type": "boolean" }
+          }
+        }
+      },
+      "required": ["id", "rideId", "senderId", "receiverId", "text", "timestamp"]
+    },
+    "login_log": {
+      "title": "LoginLog",
+      "description": "Comprehensive tracking logs for user login sessions.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "email": { "type": "string" },
+        "deviceType": { "type": "string" },
+        "ipAddress: ": { "type": "string" },
+        "loginTime": { "type": "string" },
+        "logoutTime": { "type": "string" },
+        "sessionDurationStr": { "type": "string" }
+      },
+      "required": ["id", "userId", "userName", "email", "deviceType", "loginTime"]
+    },
+    "activity_log": {
+      "title": "ActivityLog",
+      "description": "Comprehensive audit trails of administrative and user actions.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "email": { "type": "string" },
+        "action": { "type": "string" },
+        "description": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "userId", "userName", "email", "action", "description", "timestamp"]
+    },
+    "backup": {
+      "title": "Backup",
+      "description": "App data backups for admin.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "backupName": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "createdByName": { "type": "string" },
+        "createdByEmail": { "type": "string" },
+        "summary": { "type": "string" },
+        "dataString": { "type": "string" }
+      },
+      "required": ["id", "backupName", "timestamp", "createdByName", "createdByEmail", "summary", "dataString"]
+    }
+  },
+  "firestore": {
+    "campusride_users": {
+      "schema": "user",
+      "description": "Registered passengers and riders, plus the verified admins."
+    },
+    "campusride_rides": {
+      "schema": "ride",
+      "description": "Active, completed, or cancelled rides published by riders."
+    },
+    "campusride_bookings": {
+      "schema": "booking",
+      "description": "Bookings representing passenger seats reserved on existing rides."
+    },
+    "campusride_payments": {
+      "schema": "payment",
+      "description": "Payments logged for successful reservations."
+    },
+    "campusride_reviews": {
+      "schema": "review",
+      "description": "Ratings and feedback provided between commuters."
+    },
+    "campusride_complaints": {
+      "schema": "complaint",
+      "description": "Incidents or issues reported by commuters for administrator mediation."
+    },
+    "campusride_notifications": {
+      "schema": "notification",
+      "description": "System broadcast or targeted alerts regarding trip statuses."
+    },
+    "campusride_messages": {
+      "schema": "message",
+      "description": "Real-time communication during rides between passengers and riders."
+    },
+    "campusride_login_logs": {
+      "schema": "login_log",
+      "description": "Comprehensive security log tracking all user login attempts."
+    },
+    "campusride_activity_logs": {
+      "schema": "activity_log",
+      "description": "Comprehensive security log tracking administrative and profile actions."
+    },
+    "campusride_backups": {
+      "schema": "backup",
+      "description": "System database backups stored securely in the cloud."
+    }
+  }
+}
